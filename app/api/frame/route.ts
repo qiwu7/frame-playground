@@ -1,6 +1,7 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit/frame';
 import { NextRequest, NextResponse } from 'next/server';
 import { NEXT_PUBLIC_URL } from '../../config';
+import { kv } from "@vercel/kv";
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
@@ -9,6 +10,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (!isValid) {
     return new NextResponse('Message not valid', { status: 500 });
   }
+
+  await kv.set("user_1_session", "session_token_value");
+  const session = await kv.get("user_1_session");
+  console.log("sesson", session);
 
   const text = message.input || '';
   let state = {
@@ -45,6 +50,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           action: 'post_redirect',
           label: 'Dog pictures',
         },
+        {
+          label: `${session}`
+        }
       ],
       image: {
         src: `${NEXT_PUBLIC_URL}/park-1.png`,
