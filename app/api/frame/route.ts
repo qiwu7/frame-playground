@@ -25,6 +25,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.error(e);
   }
 
+  console.log('Message:', message);
+  console.log('State:', state);
   /**
    * Use this code to redirect to a different page
    */
