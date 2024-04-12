@@ -11,8 +11,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     return new NextResponse('Message not valid', { status: 500 });
   }
 
-  await kv.set("user_1_session", "session_token_value");
-  const session = await kv.get("user_1_session");
+  await kv.set("key", "value");
+  const session = await kv.get("key");
   console.log("sesson", session);
 
   const text = message.input || '';
